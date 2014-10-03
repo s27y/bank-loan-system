@@ -1,15 +1,17 @@
+require 'singleton'
+
 class Nama
   include Singleton
 
   @@RETURN_RATIO= 0.3
   attr_accessor :balance_sheet, :loan_book
 
-  def initialize(amount)
-  	@balance_sheet = amount
+  def initialize
+  	@balance_sheet = 0
     #
   end
 
-  # This can only should called by bank
+  # This should only called by bank
   #
   def receive_loans_from_bank(loan, bank)
   	#

@@ -1,4 +1,8 @@
 class Loan
-  attr_accessor :amount
+  attr_accessor :amount, :name
+
+  def initialize(amount, name)
+  	@amount, @name = amount, name
+  end
 
 end
