@@ -10,6 +10,7 @@ class Bank
   	@nama = Nama.instance
   	@deposit_list = Array.new
   	@loan_book = Array.new
+    @losses = 0
   end
 
   def add_cash_deposit(deposit)
@@ -38,8 +39,9 @@ class Bank
   end
 
   def move_loans_to_nama(loan)
+    puts "Move loan to nama " + loan.to_s
   	# wrap in a transaction, TODO test it works or not
-  	Bank.transaction do
+  	#Bank.transaction do
   	  # This is what bank should do	
       # Remove loan, add in_nama
       self.remove_loan(loan)
@@ -50,8 +52,8 @@ class Bank
 
       # TODO what should NAMA do?
       # call NAMA function, let NAMA get the loan
-      nama.receive_loans_from_bank(loan)
-  	end
+      nama.receive_loans_from_bank(loan,self)
+  	#end
   end
 
   # Bank can not add cash itself, this method should be called by NAMA
@@ -59,7 +61,10 @@ class Bank
   #
   def receive_cash_from_nama_based_on_loan(loan)
   	#
+    puts "#{@name} receves cash #{loan.amount*Nama.RETURN_RATIO} from NAMA"
   	@losses -= loan.amount * Nama.RETURN_RATIO
+    deposit = Deposit.new(loan.amount, "NAMA","NAMA")
+    self.add_cash_deposit(deposit)
   end
 
   # Return a boolean which depends on amount of loans, ratio and cash deposits
@@ -75,4 +80,28 @@ class Bank
   	#
   end
 
+  def find_deposit_by_name(name)
+    result = Array.new
+    for deposit in deposit_list
+      #
+
+      if deposit.name.downcase == name.downcase
+        #
+        result << deposit
+      end
+    end
+    result
+end
+
+def find_loan_by_name(name)
+    result = Array.new
+    for loan in loan_book
+      #
+      if loan.name.downcase == name.downcase
+        #
+        result << loan
+      end
+    end
+    result
+  end
 end
