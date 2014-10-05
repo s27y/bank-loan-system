@@ -22,7 +22,7 @@ class Nama
   	#
     puts "NAMA receives a loan from #{bank.name}"
     @loan_book << loan
-  	@balance_sheet += loan.amount* 0.7
+  	@balance_sheet += loan.amount * (1-Nama.RETURN_RATIO)
   	bank.receive_cash_from_nama_based_on_loan(loan)
   end
 end

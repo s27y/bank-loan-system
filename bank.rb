@@ -13,6 +13,11 @@ class Bank
     @losses = 0
   end
 
+  def to_s
+    #{}"Name\tNo of Employees"
+    "#{@name}\t#{@no_of_employees}\t#{@cash_deposits}\t#{@amount_of_loans}\t#{@losses}\t#{@in_nama} "
+  end
+
   def add_cash_deposit(deposit)
   	#
   	@cash_deposits += deposit.amount
@@ -63,7 +68,7 @@ class Bank
   	#
     puts "#{@name} receves cash #{loan.amount*Nama.RETURN_RATIO} from NAMA"
   	@losses -= loan.amount * Nama.RETURN_RATIO
-    deposit = Deposit.new(loan.amount, "NAMA","NAMA")
+    deposit = Deposit.new(loan.amount*Nama.RETURN_RATIO, "NAMA","NAMA")
     self.add_cash_deposit(deposit)
   end
 
@@ -76,8 +81,8 @@ class Bank
 
   # This method will determine which loan or whose loan need be transfered to NAMA
   #
-  def make_solvent
-  	#
+  def make_solvent(loan)
+  	self.move_loans_to_nama(loan)
   end
 
   def find_deposit_by_name(name)

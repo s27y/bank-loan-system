@@ -90,8 +90,9 @@ class Developer
 
     # tell all bank he has loan with
     for bank in bank_list
+
       bank.find_loan_by_name(@name).each do |loan|
-        bank.move_loans_to_nama(loan)
+        bank.make_solvent(loan)
       end
     end
   end
