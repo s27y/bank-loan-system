@@ -43,7 +43,9 @@ class Developer
   end
 
   def deposit_amount(bank_list)
-    puts "===========DEPOSIT============="
+    str = String.new
+
+    str << "===========DEPOSIT=============\n"
     over_all_total = 0
     for bank in bank_list
       #
@@ -55,11 +57,13 @@ class Developer
         bank_output << deposit.to_s  << "\n"
       end
       if bank_total != 0
-        puts bank_output+"---------------------\nTotal\t\t"+bank_total.to_s
+        str << bank_output+"---------------------\nTotal\t\t"+bank_total.to_s << "\n"
       end
-    end
-    puts "------------------------\nOver all Total\t" + over_all_total.to_s
-    puts "========================"
+    end 
+    str << "------------------------\nOver all Total\t" + over_all_total.to_s  << "\n"
+    str << "========================\n"
+    puts str
+    str
   end
 
   def owes_amount(bank_list)
@@ -106,7 +110,7 @@ class Developer
         end
       end
     else
-      puts "You can not declare bankrupt"
+      puts "Error!!!\nYou can not declare bankrupt"
     end
     
   end

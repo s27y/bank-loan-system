@@ -3,7 +3,7 @@ require_relative 'developer'
 require_relative 'deposit'
 require_relative 'loan'
 require_relative 'nama'
-
+require_relative 'io'
 class Main
   attr_accessor :bank_list, :developer_list, :nama,\
   :johnny_ronan, :murtagh, :lowry, :joe_bloggs, :james_smith, \
@@ -154,7 +154,7 @@ class Main
     @joe_bloggs.new_deposit(amount,the_bank)
     puts "After deposit"
     puts "Name\tNetworth\tDeposits\tLoans\tBankrupt"
-    puts joe_bloggs.to_s
+    puts @joe_bloggs.to_s
 
   end
 
@@ -192,10 +192,10 @@ class Main
     end
     puts "Before loan:"
     puts joe_bloggs.to_s
-    @joe_bloggs.new_laon(amount,the_bank)
+    @joe_bloggs.new_loan(amount,the_bank)
     puts "After loan"
     puts "Name\tNetworth\tDeposits\tLoans\tBankrupt"
-    puts joe_bloggs.to_s
+    puts @joe_bloggs.to_s
   end
 
 
@@ -204,38 +204,33 @@ class Main
     welcomeText = "\nWelcome to Bank, NAMA and Developer System\n"
     puts welcomeText  #=> this will be displayed at the beginning of the app
 
-    puts"===================SAMPLE====================="
-    #puts self.family_member_to_s_each
-    #@family_member_list.each {|fm|  test_type_of_family_member(fm)}
-    puts"====================SAMPLE END====================\n"
-
     num = 0
     begin
       puts "1 Make a deposit as Joe Bloggs \n
         2 Apply a loan as Joe Bloggs\n
         3 Check bank details\n
         4 Declare Bankrupt \n
-        5 Check Joe Bloggs' detail and save to text file \n
+        5 Check Joe Bloggs' Bank Statement and print to file \n
         6 Exit\n"
       puts "Enter a number"
       num = gets
       num = num.chomp
       case
       when num == "1"
-        joe_bloggs.make_new_deposit
+        self.make_new_deposit
       when num == "2"
-        joe_bloggs.make_new_loan
+        self.make_new_loan
       when num == "3"
-        joe_bloggs.deposit_amount
-        joe_bloggs.owes_amount
+        self.print_bank_list_detail
       when num == "4"
-        
+        joe_bloggs.declared_bankrupt(@bank_list)
       when num == "5"
-      save_list(self.family_member_and_spending_list_to_s_do)
+        save_list(joe_bloggs.deposit_amount(@bank_list),"deposits_statment.txt")
+        save_list(joe_bloggs.owes_amount(@bank_list),"loans_statement.txt")
       when num == "6"
     abort("See you!")
       end
-    end until num == "5"
+    end until num == "6"
 
   end
 
@@ -245,6 +240,7 @@ class Main
 
 end
 
+puts"===================SAMPLE====================="
 main = Main.new
 puts "\nInitial Bank Details"
 main.print_bank_list_detail
@@ -261,6 +257,5 @@ main.check_solvenct
 
 puts "\nAfter check solvent"
 main.print_bank_list_detail
-
-
-main.make_new_deposit
+puts"====================SAMPLE END====================\n"
+main.menu
