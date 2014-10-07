@@ -8,6 +8,4 @@ class Loan
   def to_s
   	@name + "\t" + @amount.to_s
   end
-
-
 end

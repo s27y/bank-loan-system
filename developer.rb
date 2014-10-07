@@ -1,13 +1,21 @@
 
 class Developer
-  attr_accessor :name, :net_worth, :banks_loaned, :bankrupt  
+  attr_accessor :name, :net_worth, :deposit, :banks_loaned, :bankrupt  
 
   def initialize(name)
     @name = name
     @net_worth = 0
+    @deposit = 0;
+    @banks_loaned = 0;
     @loan_list = Array.new
     @deposit_list = Array.new
+    @bankrupt = false
     #
+  end
+
+  def to_s
+    #
+    "#{@name}\t#{@net_worth}\t#{@deposit}\t#{@banks_loaned}\t#{@bankrupt}"
   end
 
   def is_developer_solvent?
@@ -23,6 +31,7 @@ class Developer
     deposit = Deposit.new(amount, @name, bank.name)
     bank.add_cash_deposit(deposit)
     @net_worth += amount
+    @deposit += amount
   end
 
   def new_loan(amount, bank)
@@ -30,31 +39,31 @@ class Developer
     loan = Loan.new(amount, @name, bank.name)
     bank.add_to_loan_book(loan)
     @net_worth -= amount
+    @banks_loaned += amount
   end
 
   def deposit_amount(bank_list)
-    puts "========================"
-    puts "Deposit"
+    puts "===========DEPOSIT============="
     over_all_total = 0
     for bank in bank_list
       #
       bank_total = 0
-      puts bank.name
+      bank_output = "=="+bank.name + "==" + "\n"
       bank.find_deposit_by_name(@name).each do |deposit|
         over_all_total += deposit.amount
         bank_total += deposit.amount
-        puts deposit.to_s
+        bank_output << deposit.to_s  << "\n"
       end
-      puts "Total\t"+bank_total.to_s
+      if bank_total != 0
+        puts bank_output+"---------------------\nTotal\t\t"+bank_total.to_s
+      end
     end
-    puts "Over all Total\t" + over_all_total.to_s
+    puts "------------------------\nOver all Total\t" + over_all_total.to_s
     puts "========================"
-
   end
 
   def owes_amount(bank_list)
-    puts "========================"
-    puts "Loan"
+    puts "============LOAN============"
     over_all_total = 0
     for bank in bank_list
       #
@@ -86,15 +95,20 @@ class Developer
   end
 
   def declared_bankrupt(bank_list)
-    @bankrupt = true
+    if self.is_developer_solvent?
+      @bankrupt = true
 
-    # tell all bank he has loan with
-    for bank in bank_list
+      # tell all bank he has loan with
+      for bank in bank_list
 
-      bank.find_loan_by_name(@name).each do |loan|
-        bank.make_solvent(loan)
+        bank.find_loan_by_name(@name).each do |loan|
+          bank.make_solvent(loan)
+        end
       end
+    else
+      puts "You can not declare bankrupt"
     end
+    
   end
 
 end

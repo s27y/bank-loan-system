@@ -14,8 +14,8 @@ class Bank
   end
 
   def to_s
-    #{}"Name\tNo of Employees"
-    "#{@name}\t#{@no_of_employees}\t#{@cash_deposits}\t#{@amount_of_loans}\t#{@losses}\t#{@in_nama} "
+    #
+    "#{@name}\t#{@no_of_employees}\t#{@cash_deposits}\t\t#{@amount_of_loans}\t#{@losses}\t#{@in_nama} "
   end
 
   def add_cash_deposit(deposit)
