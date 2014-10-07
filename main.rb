@@ -209,7 +209,7 @@ class Main
       puts "1 Make a deposit as Joe Bloggs \n
         2 Apply a loan as Joe Bloggs\n
         3 Check bank details\n
-        4 Declare Bankrupt \n
+        4 Declare Bankrupt and see the knock on effect \n
         5 Check Joe Bloggs' Bank Statement and print to file \n
         6 Exit\n"
       puts "Enter a number"
